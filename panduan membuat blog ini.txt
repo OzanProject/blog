@@ -1,0 +1,132 @@
+Laravel 11
+- PHP 8.3
+- MySQL 8.0
+- Install Laravel
+- Buat database di MySQL
+- Edit database di .env
+- Edit database seeder di DatabaseSeeder.php untuk admin dan user
+- Migrate menggunakan terminal dengan perintah php artisan migrate --seed
+- Jalankan aplikasi dengan perintah php artisan serve
+- Install breeze
+  Jalankan dulu perintah 
+  Buka Command Prompt sebagai administrator.
+  Navigasi ke direktori proyek Anda: cd D:\laragon\www\ozan-project
+  Jalankan perintah:
+  Bash
+
+  icacls vendor /grant Administrators:F
+  icacls vendor /grant Users:R
+
+  Perintah ini memberikan izin penuh kepada administrator dan izin baca kepada pengguna untuk direktori vendor.
+
+  Jalankan perintah composer require laravel/breeze --dev
+  Jalankan perintah php artisan breeze:install
+
+- Skema Tabel Posts
+  Di terminal
+  Jalankan perintah php artisan make:migration create_posts_table
+  Isi database create_posts_table dengan :
+  Schema::create('posts', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->string('slug')->unique();
+            $table->text('description')->nullable();
+            $table->text('content')->nullable();
+            $table->enum( 'status', ['draft', 'publish'])->default('draft');
+            $table->string('thumbnail')->nullable();
+
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+
+            $table->timestamps();
+        })
+  jika sudah jalankan perintah php artisan migrate
+
+- Model Posts
+  Jalankan perintah php artisan make:model Post
+  Isi model Post dengan : 
+  class Post extends Model
+  {
+      use HasFactory;
+      protected $table = "posts";
+      protected $fillable = ['title', 'slug', 'description', 'content', 'status', 'thumbnail', 'user_id'];
+  }
+
+  Jalankan perintah php artisan make:seeder PostSeeder
+  Isi PostSeeder dengan : 
+  public function run(): void
+    {
+        $judul = [
+            'Judul 1',
+            'Judul 2',
+            'Judul 3',
+            'Judul 4',
+        ];
+
+
+        foreach ($judul as $j) {
+            $slug = Str::slug($j);
+            Post::create([
+                'title' => $j,
+                'slug' => $slug,
+                'description' => 'Deskripsi Untuk' . $j,
+                'content' => 'Isi Konten Untuk' . $j,
+                'status' => 'publish',
+                'user_id' => '1'
+            ]);
+        }
+    }
+
+  Jalankan perintah php artisan db:seed --class=PostSeeder
+
+- Blog Controller
+  Jalankan perintah php artisan make:controller Member/BlogController --resource --model=App\Models\Post
+  Isi Index dengan :
+  public function index()
+    {
+        $data = Post::all();
+        print_r($data);
+    }
+  
+- Buat Component Baru
+  Jalankan perintah php artisan make:component HalamanLayout
+
+- Melewatkan Data di Component
+- Melewatkan Variabel di Component
+- Meletakan data di component
+- Blade untuk display data blog
+- Mengeluarkan data blog di blade
+  Jalankan perintah npm run build untuk menjalankan talwind css
+- Pagination di Blog
+  Jalankan perintah npm run build untuk menjalankan talwind css
+  Jalankan php artisan lang:publish
+- Fungsi Edit
+  Jalankan perintah untuk melihat list route php artisan route:list
+- Form Edit
+- Menampilkan data di form edit 2:28:20
+- Buat component textarea + select 2:36:39
+- Validasi menampilkan pesan 2:43:14
+- Upload gambar
+- Atur lokasi thumbnail & update gambar
+- Fungsi slug update Blog
+- Form create data blog baru sampai menit 3:35:22
+- Fungsi store
+- Fungsi hapus
+- Form pencarian
+- Fungsi pencarian
+- Navigasi menu blogs
+- Policy
+  Jalankan perintah php artisan make:policy PostPolicy --model=App\Models\Post
+- Download template atur css & js
+  Saya menggunakan template https://startbootstrap.com/theme/clean-blog
+- Component halaman depan
+- Component navigation
+- Controller halaman depan 4:55:23
+  Jalankan perintah php artisan make:controller Front/HomePageController
+- Daftar Tulisan
+  Jalankan perintah php artisan make:controller Front/BlogDetailController
+- Pagination Depan
+- Component detail tulisan
+- Display detail tulisan
+- Tulisan sebelum sesudah
