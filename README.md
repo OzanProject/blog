@@ -128,7 +128,7 @@ Akses website di **domain kamu** dan pastikan semuanya berjalan dengan baik.
 ## 🔑 Login Admin
 - **URL:** `yourdomain.com/login`
 - **Default Admin:**
-  - Email: `admin@example.com`
+  - Email: `admin@admin.com`
   - Password: `password`
 
 > **Jangan lupa untuk mengganti password setelah login pertama kali!**
